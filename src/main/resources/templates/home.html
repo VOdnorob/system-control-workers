@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}" lang="en">
+<head>
+    <title>Spring Security Example</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div layout:fragment="content">
+    <h1>Welcome!</h1>
+
+
+    <p>Click <a th:href="@{/signupWorker}">here</a> for registered how worker.</p>
+    <p>Click <a th:href="@{/signupEmployer}">here</a> for registered how employer.</p>
+    <p>If you have account click <a th:href="@{/login}">here</a> for for login</p>
+
+</div>
+</body>
+</html>

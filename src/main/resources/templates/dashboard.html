@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}">
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="http://bootstraptema.ru/plugins/2015/bootstrap3/bootstrap.min.css"/>
+    <link rel="stylesheet" href="http://bootstraptema.ru/plugins/font-awesome/4-4-0/font-awesome.min.css"/>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
+    <link href="http://demos.creative-tim.com/fresh-bootstrap-table/assets/css/fresh-bootstrap-table.css"
+          rel="stylesheet"/>
+    <script src="http://bootstraptema.ru/plugins/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="http://bootstraptema.ru/plugins/2015/b-v3-3-6/bootstrap.min.js"></script>
+    <script type="text/javascript"
+            src="http://demos.creative-tim.com/fresh-bootstrap-table/assets/js/bootstrap-table.js"></script>
+
+</head>
+<body>
+<div class="wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+
+                <div class="fresh-table toolbar-color-blue">
+
+                    <!-- Изменение фона таблицы: full-color-blue, full-color-azure, full-color-green, full-color-red, full-color-orange
+                    Изменение фона тулбара страницы: toolbar-color-blue, toolbar-color-azure, toolbar-color-green, toolbar-color-red, toolbar-color-orange
+                    -->
+
+                    <table id="fresh-table" class="table">
+                        <thead>
+                        <th data-field="name">Name</th>
+                        <th data-field="surname">Surname</th>
+                        <th data-field="country">Country</th>
+                        <th data-field="city">City</th>
+                        <th data-field="street">Street</th>
+                        <th data-field="houseNumber">House Number</th>
+                        <th data-field="phoneNumber">Phone Number</th>
+                        <th data-field="NIP">NIP</th>
+                        <th data-field="Pesel">Pesel</th>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td th:text="${user.name}"></td>
+                            <td th:text="${user.surname}"></td>
+                            <td th:text="${user.country}"></td>
+                            <td th:text="${user.city}"></td>
+                            <td th:text="${user.street}"></td>
+                            <td th:text="${user.numberOfHouse}"></td>
+                            <td th:text="${user.phone}"></td>
+                            <td th:text="${user.nip}"></td>
+                            <td th:text="${user.pesel}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
