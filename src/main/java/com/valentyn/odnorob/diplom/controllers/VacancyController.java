@@ -4,6 +4,7 @@ import com.valentyn.odnorob.diplom.domain.Vacancy;
 import com.valentyn.odnorob.diplom.repository.VacancyRepository;
 import com.valentyn.odnorob.diplom.service.VacancyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +28,7 @@ public class VacancyController {
         this.vacancyRepository = vacancyRepository;
     }
 
-
+    @PreAuthorize(value = "hasRole('EMPLOYER')")
     @GetMapping("/addVacancy")
     public ModelAndView vacancies() {
         ModelAndView modelAndView = new ModelAndView();
@@ -37,6 +38,7 @@ public class VacancyController {
         return modelAndView;
     }
 
+    @PreAuthorize(value = "hasRole('EMPLOYER')")
     @PostMapping("/addVacancy")
     public ModelAndView addVacancies(@Valid Vacancy vacancy, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
@@ -47,6 +49,7 @@ public class VacancyController {
         return modelAndView;
     }
 
+    @PreAuthorize(value = "hasAnyRole('EMPLOYER', 'WORKER')")
     @GetMapping("/getAllVacancies")
     public ModelAndView getAllVacancies(Vacancy vacancy) {
         ModelAndView modelAndView = new ModelAndView();
@@ -57,7 +60,7 @@ public class VacancyController {
     }
 
 
-
+    @PreAuthorize("hasRole('WORKER')")
     @PostMapping("/takeVacancy")
     public ModelAndView acceptVacancy(Vacancy vacancy) {
         ModelAndView modelAndView = new ModelAndView();
@@ -65,6 +68,6 @@ public class VacancyController {
         modelAndView.addObject("vacancy", acceptVacancy);
         modelAndView.setViewName("addVacancies");
         return modelAndView;
-
     }
+
 }

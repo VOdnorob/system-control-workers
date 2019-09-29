@@ -2,6 +2,7 @@ package com.valentyn.odnorob.diplom.service;
 
 import com.valentyn.odnorob.diplom.domain.Role;
 import com.valentyn.odnorob.diplom.domain.User;
+import com.valentyn.odnorob.diplom.domain.Vacancy;
 import com.valentyn.odnorob.diplom.repository.RoleRepository;
 import com.valentyn.odnorob.diplom.repository.UserRepository;
 import com.valentyn.odnorob.diplom.repository.VacancyRepository;
@@ -38,6 +39,9 @@ public class UserService implements UserDetailsService {
     @Autowired
     private EmailSender emailSender;
 
+    @Autowired
+    private VacancyService vacancyService;
+
 
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email);
@@ -45,14 +49,14 @@ public class UserService implements UserDetailsService {
 
     public void saveUserEmployer(User user) {
         user.setActivationCode(UUID.randomUUID().toString());
-        user.setEnabled(true);
+        user.setEnabled(false);
         Role userRole = roleRepository.findByRole("EMPLOYER");
         user.setRoles(new HashSet<>(Collections.singletonList(userRole)));
         userRepository.save(user);
         if (!StringUtils.isEmpty(user.getEmail())){
             String message = String.format("Hello %s! \n" +
                             "You registered how employer. \n"
-                            + "Welcome to our site. Please visit next link: http://localhost/activate/%s",
+                            + "Welcome to our site. Please visit next link: http://localhost:8080/activate/%s" + "And your password " + user.getPassword(),
                     user.getName(),
                     user.getActivationCode());
             emailSender.sendEmail(user.getEmail(),  message,"Registered user");
@@ -62,8 +66,7 @@ public class UserService implements UserDetailsService {
     }
 
     public void saveUserWorker(User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setEnabled(true);
+        user.setEnabled(false);
         Role userRole = roleRepository.findByRole("WORKER");
         user.setRoles(new HashSet<>(Collections.singletonList(userRole)));
         user.setActivationCode(UUID.randomUUID().toString());
@@ -73,13 +76,18 @@ public class UserService implements UserDetailsService {
         if (!StringUtils.isEmpty(user.getEmail())){
             String message = String.format("Hello %s! \n " +
                             "You registered how worker. \n"
-                            + "Welcome to our site. Please visit next link: http://localhost/activate/%s",
+                            + "Welcome to our site. Please visit next link: http://localhost:8080/activate/%s" + " And your password " + user.getPassword(),
                     user.getName(),
                     user.getActivationCode());
             emailSender.sendEmail(user.getEmail(),  message,"Registered user");
         }
+        for (Vacancy vacancy : user.getVacancies()){
+            vacancyService.save(vacancy);
+        }
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+
+
 
 
     }
@@ -90,6 +98,7 @@ public class UserService implements UserDetailsService {
             return false;
         }
         user.setActivationCode(null);
+        user.setEnabled(true);
         userRepository.save(user);
         return true;
     }

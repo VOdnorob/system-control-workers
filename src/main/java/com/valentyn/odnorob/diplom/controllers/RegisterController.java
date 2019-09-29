@@ -15,8 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
-@Controller
-@RestController("/api/user/register")
+@Controller("/api/user/register")
 public class RegisterController {
 
     @Autowired
@@ -85,7 +84,6 @@ public class RegisterController {
         return modelAndView;
     }
 
-
     @PostMapping("/signupWorker")
     public ModelAndView createNewUserWorker(@Valid User user, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
@@ -134,6 +132,7 @@ public class RegisterController {
         }else {
             modelAndView.addObject("message", "Activation code is not found");
         }
+
         modelAndView.setViewName("login");
         return modelAndView;
     }

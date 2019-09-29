@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}">
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{default}">
 <head>
     <title>Dashboard</title>
     <link rel="stylesheet" href="http://bootstraptema.ru/plugins/2015/bootstrap3/bootstrap.min.css"/>
@@ -51,10 +52,14 @@
                             <td th:text="${user.pesel}"></td>
                         </tr>
                         </tbody>
+
+
                     </table>
 
 
                 </div>
+                <div class="margin-top20 text-center"> Do you want see vacancies? See <a th:href="@{/getAllVacancies}" th:method="get">them</a></div>
+                <div sec:authorize="hasRole('EMPLOYER')" class="margin-top20 text-center"> Do you want add vacancies? Add <a th:href="@{/addVacancy}" th:method="get">here</a></div>
 
             </div>
         </div>
