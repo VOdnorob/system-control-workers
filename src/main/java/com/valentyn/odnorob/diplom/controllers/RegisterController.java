@@ -15,7 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
-@Controller("/api/user/register")
+@Controller
+@RestController("/api/user/register")
 public class RegisterController {
 
     @Autowired

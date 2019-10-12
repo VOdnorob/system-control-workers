@@ -40,12 +40,12 @@ public class VacancyService {
                 vacancyRepository.save(vacancy);
                 userRepository.save(user);
                 return vacancy;
+            } else {
+                throw new RuntimeException("This vacancy now not allowed");
             }
-            return vacancy;
         } else {
             throw new RuntimeException("You can`t do it");
         }
-
     }
 
     public Iterable<Vacancy> getAllVacancies() {

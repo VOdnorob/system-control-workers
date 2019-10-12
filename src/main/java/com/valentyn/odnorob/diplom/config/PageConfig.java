@@ -9,10 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class PageConfig implements WebMvcConfigurer {
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -21,6 +18,9 @@ public class PageConfig implements WebMvcConfigurer {
         registry.addViewController("/dashboard").setViewName("dashboard");
         registry.addViewController("/login").setViewName("login");
         registry.addViewController("/activate/**").setViewName("login");
-
+        registry.addViewController("/listVacancies").setViewName("listVacancies");
+        registry.addViewController("/signupWorker").setViewName("signupWorker");
+        registry.addViewController("/signupEmployer").setViewName("signupEmployer");
+        registry.addViewController("/addVacancies").setViewName("addVacancies");
     }
 }
