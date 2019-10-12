@@ -122,6 +122,16 @@ public class UserService implements UserDetailsService {
         return new ArrayList<>(roles);
     }
 
+    public boolean allowUsed(){
+        userRepository.findByEmail(getLoginUser());
+        User user = userRepository.findByEmail(getLoginUser());
+        if (user.isEnabled()){
+            return true;
+        } else {
+            return false;
+        }
+
+    }
 
     private UserDetails buildUserForAuthentication(User user, List<GrantedAuthority> authorities) {
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);

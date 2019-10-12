@@ -27,20 +27,25 @@ public class VacancyService {
     }
 
 
-    public Vacancy acceptVacancy(String vacancyId) {
+    public Vacancy acceptVacancy(String vacancyId) throws RuntimeException {
         Vacancy vacancy = vacancyRepository.findById(vacancyId);
         String userEmail = userService.getLoginUser();
         User user = userRepository.findByEmail(userEmail);
-        if (!vacancy.isAccept()){
-            vacancy.setAccept(true);
-            List<Vacancy> vacancyList = new ArrayList<>();
-            vacancyList.add(vacancy);
-            user.setVacancies(vacancyList);
-            vacancyRepository.save(vacancy);
-            userRepository.save(user);
+        if (userService.allowUsed()){
+            if (!vacancy.isAccept()){
+                vacancy.setAccept(true);
+                List<Vacancy> vacancyList = new ArrayList<>();
+                vacancyList.add(vacancy);
+                user.setVacancies(vacancyList);
+                vacancyRepository.save(vacancy);
+                userRepository.save(user);
+                return vacancy;
+            }
             return vacancy;
+        } else {
+            throw new RuntimeException("You can`t do it");
         }
-        return vacancy;
+
     }
 
     public Iterable<Vacancy> getAllVacancies() {

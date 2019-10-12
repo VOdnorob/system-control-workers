@@ -60,7 +60,7 @@ public class VacancyController {
 
     @PreAuthorize("hasRole('WORKER')")
     @PostMapping("/acceptVacancy/{id}")
-    public ModelAndView acceptVacancy(@PathVariable("id") String id) {
+    public ModelAndView acceptVacancy(@PathVariable("id") String id) throws RuntimeException {
         ModelAndView modelAndView = new ModelAndView();
         Vacancy acceptVacancy = vacancyService.acceptVacancy(id);
         modelAndView.addObject("vacancy", acceptVacancy);
