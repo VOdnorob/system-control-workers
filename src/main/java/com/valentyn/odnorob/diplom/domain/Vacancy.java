@@ -13,11 +13,9 @@ public class Vacancy {
     @Id
     private String id;
 
-    private UUID uuid;
+    private String companyName;
 
     private String position;
-
-    private String companyName;
 
     private String city;
 
@@ -27,6 +25,6 @@ public class Vacancy {
 
     private int price;
 
-    private Boolean isAccept = false;
+    private boolean isAccept = false;
 
 }

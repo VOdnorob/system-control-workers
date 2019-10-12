@@ -1,13 +1,13 @@
 package com.valentyn.odnorob.diplom.controllers;
 
 import com.valentyn.odnorob.diplom.domain.Vacancy;
-import com.valentyn.odnorob.diplom.repository.VacancyRepository;
 import com.valentyn.odnorob.diplom.service.VacancyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,14 +18,13 @@ import javax.validation.Valid;
 @RestController("/api/user/vacancy")
 public class VacancyController {
 
+
     private VacancyService vacancyService;
 
-    private final VacancyRepository vacancyRepository;
-
     @Autowired
-    public VacancyController(VacancyService vacancyService, VacancyRepository vacancyRepository) {
+    public VacancyController(VacancyService vacancyService) {
         this.vacancyService = vacancyService;
-        this.vacancyRepository = vacancyRepository;
+
     }
 
     @PreAuthorize(value = "hasRole('EMPLOYER')")
@@ -53,20 +52,20 @@ public class VacancyController {
     @GetMapping("/getAllVacancies")
     public ModelAndView getAllVacancies(Vacancy vacancy) {
         ModelAndView modelAndView = new ModelAndView();
-        Iterable<Vacancy> allVacancies = vacancyRepository.findAll();
-        modelAndView.addObject("vacancies", allVacancies);
+        modelAndView.addObject("vacancies", vacancyService.getAllVacancies());
         modelAndView.setViewName("listVacancies");
         return modelAndView;
     }
 
 
     @PreAuthorize("hasRole('WORKER')")
-    @PostMapping("/takeVacancy")
-    public ModelAndView acceptVacancy(Vacancy vacancy) {
+    @PostMapping("/acceptVacancy/{id}")
+    public ModelAndView acceptVacancy(@PathVariable("id") String id) {
         ModelAndView modelAndView = new ModelAndView();
-        Vacancy acceptVacancy = vacancyService.acceptVacancy(vacancy);
+        Vacancy acceptVacancy = vacancyService.acceptVacancy(id);
         modelAndView.addObject("vacancy", acceptVacancy);
-        modelAndView.setViewName("addVacancies");
+        modelAndView.addObject("vacancies", vacancyService.getAllVacancies());
+        modelAndView.setViewName("listVacancies");
         return modelAndView;
     }
 

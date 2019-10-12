@@ -16,7 +16,7 @@
     </div>
 
 
-    <div class="alert alert-danger" role="alert" th:if="${message}" th:text="message"></div>
+    <div class="alert alert-danger" role="alert" th:if="${message}" th:utext="message"></div>
 
     <form th:action="@{/login}" method="post">
         <h1 class="h3 mb-3 font-weight-normal">Sign in</h1>

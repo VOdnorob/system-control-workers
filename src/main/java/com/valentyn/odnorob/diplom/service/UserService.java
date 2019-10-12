@@ -7,8 +7,10 @@ import com.valentyn.odnorob.diplom.repository.RoleRepository;
 import com.valentyn.odnorob.diplom.repository.UserRepository;
 import com.valentyn.odnorob.diplom.repository.VacancyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -86,21 +88,17 @@ public class UserService implements UserDetailsService {
         }
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
-
-
-
-
     }
 
-    public boolean activateUser(String code) {
+    public User activateUser(String code) {
         User user = userRepository.findByActivationCode(code);
         if (user == null){
-            return false;
+            return null;
         }
-        user.setActivationCode(null);
+        user.setActivationCode(code);
         user.setEnabled(true);
         userRepository.save(user);
-        return true;
+        return user;
     }
 
     @Override
@@ -129,5 +127,9 @@ public class UserService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
     }
 
+    public String getLoginUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
+    }
 
 }

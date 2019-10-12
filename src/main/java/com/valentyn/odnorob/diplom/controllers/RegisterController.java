@@ -125,9 +125,9 @@ public class RegisterController {
     @GetMapping("/activate/{code}")
     public ModelAndView activateCode(@PathVariable String code){
         ModelAndView modelAndView = new ModelAndView();
-        boolean isActivated = userService.activateUser(code);
+        User user = userService.activateUser(code);
 
-        if (isActivated){
+        if (user.isEnabled()){
             modelAndView.addObject("message", "User successfully activated");
         }else {
             modelAndView.addObject("message", "Activation code is not found");

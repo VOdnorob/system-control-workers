@@ -19,24 +19,27 @@
 
                 <div class="fresh-table toolbar-color-blue">
                     <tbody>
+
                     <table id="fresh-table" class="table">
                         <thead>
-                        <th data-field="name">Vacancy</th>
-                        <th data-field="name" data-sortable="true">Name</th>
-                        <th data-field="salary" data-sortable="true">Salary</th>
+                        <th data-field="name" data-sortable="true">Company name</th>
+                        <th data-field="name" data-sortable="true">Position</th>
                         <th data-field="country" data-sortable="true">Country</th>
                         <th data-field="city">City</th>
                         <th data-field="description">Description</th>
                         <th data-field="price">Price</th>
+                        <th data-field="price">Accept</th>
 
-                        <tr th:each="vacancy : ${vacancies}">
-                            <td><span th:text="${vacancy.position}"></span></td>
-                            <td><span th:text="${vacancy.companyName}"></span></td>
+                        <tr th:each="vacancy:${vacancies}">
+                            <form th:action="@{/acceptVacancy/{id}(id=${vacancy.id})}" method="post">
+                            <td><span th:text="${vacancy.companyName}"></span> </td>
+                            <td><span th:text="${vacancy.position}"></span> </td>
                             <td><span th:text="${vacancy.country}"></span></td>
                             <td><span th:text="${vacancy.city}"></span></td>
                             <td><span th:text="${vacancy.description}"></span></td>
                             <td><span th:text="${vacancy.price}"></span></td>
-                            <td><span th:text="${vacancy.isAccept}"></span></td>
+                            <td><button class="btn" type="submit">Accept</button></td>
+                            </form>
                         </tr>
                         </thead>
                     </table>
